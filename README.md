@@ -1,32 +1,16 @@
-# _Sample project_
+# Soil Grow monitor
 
-(See the README.md file in the upper level 'examples' directory for more information about examples.)
+Connect to the device via bluetooth on BudBroker grow app and pair with a grow record. The device will periodically 
+measure temp, humidity, lux, soil moisture and pressure, it will calculate the VPD and dew point and post the values to the server.
 
-This is the simplest buildable example. The example is used by command `idf.py create-project`
-that copies the project to user specified path and set it's name. For more information follow the [docs page](https://docs.espressif.com/projects/esp-idf/en/latest/api-guides/build-system.html#start-a-new-project)
+The user will be able to track the grow details from the app and get notifications if the measured details are outside of the limits.
 
+Built on an ESP32 using ESP-IDF.
 
+## Sensors
 
-## How to use example
-We encourage the users to use the example as a template for the new projects.
-A recommended way is to follow the instructions on a [docs page](https://docs.espressif.com/projects/esp-idf/en/latest/api-guides/build-system.html#start-a-new-project).
-
-## Example folder contents
-
-The project **sample_project** contains one source file in C language [main.c](main/main.c). The file is located in folder [main](main).
-
-ESP-IDF projects are built using CMake. The project build configuration is contained in `CMakeLists.txt`
-files that provide set of directives and instructions describing the project's source files and targets
-(executable, library, or both). 
-
-Below is short explanation of remaining files in the project folder.
-
-```
-├── CMakeLists.txt
-├── main
-│   ├── CMakeLists.txt
-│   └── main.c
-└── README.md                  This is the file you are currently reading
-```
-Additionally, the sample project contains Makefile and component.mk files, used for the legacy Make based build system. 
-They are not used or needed when building with CMake and idf.py.
+* DHT11 (temperature/humidity)
+* MAX44009 (Ambient light)
+* Soil moisture sensor
+* Barometric Pressure sensor
+* ??? (looking at integrating a CO2 sensor too)

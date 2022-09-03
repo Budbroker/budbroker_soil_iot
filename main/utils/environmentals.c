@@ -37,7 +37,7 @@ float calculateVPD(const float temperature, const float humidity)
     //SVP = 610.78 x e^(T / (T +237.3) x 17.2694)
     float svp = 610.78 * exp(temperature / (temperature + 237.3) * 17.2694);
     //SVP x (1 – RH/100) = VPD
-    //svp is divided by 1000 to get kPa
+    //svp is divided by 1000 to get vpd in kPa
     float vpd = (svp/1000) * (1 - humidity/100);
     return vpd;
 }

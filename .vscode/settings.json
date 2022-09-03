@@ -15,7 +15,10 @@
         "cmath": "c",
         "environmentals.h": "c",
         "max44009.h": "c",
-        "esp_log.h": "c"
+        "esp_log.h": "c",
+        "*.inc": "c",
+        "*.tcc": "c",
+        "*.ipp": "c"
     },
     "cmake.configureOnOpen": true
 }
