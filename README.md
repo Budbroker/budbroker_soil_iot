@@ -14,3 +14,5 @@ Built on an ESP32 using ESP-IDF.
 * Soil moisture sensor
 * Barometric Pressure sensor
 * ??? (looking at integrating a CO2 sensor too)
+
+### TODO. Still a work in progress.
