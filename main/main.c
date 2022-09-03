@@ -4,7 +4,6 @@
 #include "driver/gpio.h"
 #include "sdkconfig.h"
 #include <dht.h>
-
 #include "utils/environmentals.h"
 #include "utils/networking.h"
 #include "utils/MAX44009.h"
