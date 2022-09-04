@@ -9,6 +9,6 @@
 
 void init_storage();
 char get_stored_value(char key);
-void set_storage_value(char key, char val);
+void set_storage_value(char *key, char *val);
 
 #endif

@@ -29,6 +29,11 @@ void i2c_master_init()
 	i2c_driver_install(I2C_NUM_0, I2C_MODE_MASTER, 0, 0, 0);
 }
 
+/**
+ * @brief Read the ambient light in lux
+ * 
+ * @return float lux value of light or -1 if error
+ */
 float read_ambient_light(){
 	uint8_t lux_h;
 	uint8_t lux_l;
@@ -66,6 +71,6 @@ float read_ambient_light(){
         return lux;
     } else {
         ESP_LOGE(tag, "fail to read from sensor. code: %.2X", espErr);
-        return 0.0;
+        return LIGHT_READ_ERROR;
     }
 }

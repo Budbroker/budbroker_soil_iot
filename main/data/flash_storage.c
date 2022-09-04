@@ -1,4 +1,4 @@
-#include "flash.h"
+#include "flash_storage.h"
 
 #include <stdio.h>
 #include "freertos/FreeRTOS.h"
@@ -34,14 +34,15 @@ void init_storage()
 char get_stored_value(char key)
 {
     char val = '\0';
+    size_t size;
     
     nvs_handle_t handle;
-    err = nvs_open("storage", NVS_READWRITE, &handle);
+    esp_err_t err = nvs_open("budbroker", NVS_READWRITE, &handle);
     if (err != ESP_OK) {
         printf("Error (%s) opening NVS handle!\n", esp_err_to_name(err));
     } else {
-        //todo
-        err = nvs_get_str(handle, key, &val);
+        //todo test
+        err = nvs_get_str(handle, &key, &val, &size);
         switch (err) {
             case ESP_OK:
                 printf("val found\n");
@@ -64,10 +65,10 @@ char get_stored_value(char key)
  * @param key storage key
  * @param val storage value
  */
-void set_storage_value(char key, char val)
+void set_storage_value(char *key, char *val)
 {
     nvs_handle_t handle;
-    err = nvs_open("storage", NVS_READWRITE, &handle);
+    esp_err_t err = nvs_open("budbroker", NVS_READWRITE, &handle);
     if (err != ESP_OK) {
         printf("Error (%s) opening NVS handle!\n", esp_err_to_name(err));
     } else {
