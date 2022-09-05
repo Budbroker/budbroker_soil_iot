@@ -17,16 +17,16 @@
 
 void i2c_master_init()
 {
-	i2c_config_t i2c_config = {
-		.mode = I2C_MODE_MASTER,
-		.sda_io_num = SDA_PIN,
-		.scl_io_num = SCL_PIN,
-		.sda_pullup_en = GPIO_PULLUP_ENABLE,
-		.scl_pullup_en = GPIO_PULLUP_ENABLE,
-		.master.clk_speed = 400000
-	};
-	i2c_param_config(I2C_NUM_0, &i2c_config);
-	i2c_driver_install(I2C_NUM_0, I2C_MODE_MASTER, 0, 0, 0);
+    i2c_config_t i2c_config = {
+            .mode = I2C_MODE_MASTER,
+            .sda_io_num = SDA_PIN,
+            .scl_io_num = SCL_PIN,
+            .sda_pullup_en = GPIO_PULLUP_ENABLE,
+            .scl_pullup_en = GPIO_PULLUP_ENABLE,
+            .master.clk_speed = 400000
+    };
+    i2c_param_config(I2C_NUM_0, &i2c_config);
+    i2c_driver_install(I2C_NUM_0, I2C_MODE_MASTER, 0, 0, 0);
 }
 
 /**
@@ -35,11 +35,11 @@ void i2c_master_init()
  * @return float lux value of light or -1 if error
  */
 float read_ambient_light(){
-	uint8_t lux_h;
-	uint8_t lux_l;
+    uint8_t lux_h;
+    uint8_t lux_l;
 
-	esp_err_t espErr;
-	i2c_cmd_handle_t cmd;
+    esp_err_t espErr;
+    i2c_cmd_handle_t cmd;
 
     cmd = i2c_cmd_link_create();
     i2c_master_start(cmd);

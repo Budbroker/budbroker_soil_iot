@@ -9,7 +9,7 @@ Built on an ESP32 using [ESP-IDF](https://docs.espressif.com/projects/esp-idf/en
 
 ## Sensors
 
-* DHT11 (temperature/humidity)
+* DHT11 (temperature/humidity) need to replace with something like si7021 or bme280, DHT11 is a shit sensor, very inaccurate.
 * MAX44009 (Ambient light)
 * Capacitive Soil moisture sensor
 * Barometric Pressure sensor

@@ -31,27 +31,33 @@ void init_storage()
  * @param key value key in the storage.
  * @return char value stored or '\0' char null val if error or if the val does not exist.
  */
-char get_stored_value(char key)
+char* get_stored_value(char *key)
 {
-    char val = '\0';
-    size_t size;
-    
+    size_t size = 0;
+    char *val = "";
+
     nvs_handle_t handle;
     esp_err_t err = nvs_open("budbroker", NVS_READWRITE, &handle);
     if (err != ESP_OK) {
         printf("Error (%s) opening NVS handle!\n", esp_err_to_name(err));
     } else {
-        //todo test
-        err = nvs_get_str(handle, &key, &val, &size);
-        switch (err) {
-            case ESP_OK:
-                printf("val found\n");
-                break;
-            case ESP_ERR_NVS_NOT_FOUND:
-                printf("val does not exist!\n");
-                break;
-            default :
-                printf("Error (%s) reading!\n", esp_err_to_name(err));
+
+        err = nvs_get_str(handle, key, NULL, &size);
+        if(size != 0){
+            val = malloc(size);
+            err = nvs_get_str(handle, key, val, &size);
+            switch (err) {
+                case ESP_OK:
+                    printf("val found.\n");
+                    break;
+                case ESP_ERR_NVS_NOT_FOUND:
+                    printf("val does not exist!\n");
+                    break;
+                default :
+                    printf("Error (%s) reading!\n", esp_err_to_name(err));
+            }
+        }else{
+            printf("val does not exist!\n");
         }
     }
     // Close
@@ -83,5 +89,28 @@ void set_storage_value(char *key, char *val)
         printf((err != ESP_OK) ? "Failed!\n" : "Done\n");
     }
     // Close
+    nvs_close(handle);
+}
+
+/**
+ * @brief delete storage object by key
+ * @param key
+ */
+void erase_value(char *key)
+{
+    nvs_handle_t handle;
+    esp_err_t err = nvs_open("budbroker", NVS_READWRITE, &handle);
+    if (err != ESP_OK) {
+        printf("Error (%s) opening NVS handle!\n", esp_err_to_name(err));
+    } else {
+        err = nvs_erase_key(handle, key);
+        switch (err) {
+            case ESP_OK:
+                printf("Successfully deleted key.");
+                break;
+            default :
+                printf("Error (%s) deleting!\n", esp_err_to_name(err));
+        }
+    }
     nvs_close(handle);
 }

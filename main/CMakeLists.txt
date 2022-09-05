@@ -1,7 +1,5 @@
 idf_component_register(
-    SRCS "main.c" "utils/environmentals.c" "utils/MAX44009.c"
+    SRCS "main.c" "utils/environmentals.c" "utils/MAX44009.c" "data/flash_storage.c"
     INCLUDE_DIRS "." 
-    REQUIRES dht
+    REQUIRES dht nvs_flash
     )
-add_library(environmentals utils/environmentals.c)
-add_library(MAX44009 utils/MAX44009.c)

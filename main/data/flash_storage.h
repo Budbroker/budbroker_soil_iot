@@ -3,12 +3,14 @@
 
 #define USER_ACCESS_TOKEN "token"
 #define USER_REFRESH_TOKEN "refreshToken"
-#define HOST "host"
+#define SERVER_HOST "server_host"
+#define RECORD_ID "growId"
 #define WIFI_SSID "ssid"
 #define WIFI_PASSWORD "wifiPass"
 
 void init_storage();
-char get_stored_value(char key);
+char* get_stored_value(char *key);
 void set_storage_value(char *key, char *val);
+void erase_value(char *key);
 
 #endif

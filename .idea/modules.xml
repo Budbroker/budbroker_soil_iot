@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/budbroker_soil_iot.iml" filepath="$PROJECT_DIR$/.idea/budbroker_soil_iot.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/budbroker_soil_iot2.iml" filepath="$PROJECT_DIR$/.idea/budbroker_soil_iot2.iml" />
     </modules>
   </component>
 </project>

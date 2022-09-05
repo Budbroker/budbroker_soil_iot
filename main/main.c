@@ -9,6 +9,7 @@
 #include "utils/MAX44009.h"
 #include "ble/bluetooth.h"
 #include "data/flash_storage.h"
+#include "wifi/wifi.h"
 
 
 #define DHT_GPIO GPIO_NUM_5
@@ -17,21 +18,30 @@
 
 void app_main(void)
 {
-	i2c_master_init();
-	
+    // Init the NVS storage
+    init_storage();
+
+//    set_storage_value(SERVER_HOST, "example.com");
+//    erase_value(SERVER_HOST);
+    char* host = get_stored_value(SERVER_HOST);
+    printf("host %s\n", host);
+
+    // init the i2c for the light sensor
+    i2c_master_init();
+
     float temperature, humidity;
 
     while (1) {
 
         if (dht_read_float_data(SENSOR_TYPE, DHT_GPIO, &humidity, &temperature) == ESP_OK)
             printf(
-                "Humidity: %.1f%% Temp: %.1fC VPD: %.1fkPa DewPoint: %.1fC ambient light: %.1f Lux\n", 
-                humidity, 
-                temperature, 
-                calculateVPD(temperature, humidity), 
-                calculateDewPoint(temperature, humidity),
-                read_ambient_light()
-                );
+                    "Humidity: %.1f%% Temp: %.1fC VPD: %.1fkPa DewPoint: %.1fC ambient light: %.1f Lux\n",
+                    humidity,
+                    temperature,
+                    calculateVPD(temperature, humidity),
+                    calculateDewPoint(temperature, humidity),
+                    read_ambient_light()
+            );
         else
             printf("Could not read data from sensor\n");
         vTaskDelay(3000 / portTICK_PERIOD_MS);
