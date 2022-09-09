@@ -3,18 +3,12 @@
 #include "freertos/task.h"
 #include "driver/gpio.h"
 #include "sdkconfig.h"
-#include <dht.h>
-#include "utils/environmentals.h"
 #include "utils/networking.h"
-#include "utils/MAX44009.h"
 #include "ble/bluetooth.h"
 #include "data/flash_storage.h"
 #include "wifi/wifi.h"
-
-
-#define DHT_GPIO GPIO_NUM_5
-#define SENSOR_TYPE DHT_TYPE_DHT11
-
+#include "bmx280.h"
+#include "grow.h"
 
 void app_main(void)
 {
@@ -23,27 +17,29 @@ void app_main(void)
 
 //    set_storage_value(SERVER_HOST, "example.com");
 //    erase_value(SERVER_HOST);
+//    erase_value(SERVER_HOST);
     char* host = get_stored_value(SERVER_HOST);
     printf("host %s\n", host);
 
-    // init the i2c for the light sensor
-    i2c_master_init();
+    bmx280_t* bmx280 =  init_grow_sensors();
 
-    float temperature, humidity;
 
     while (1) {
 
-        if (dht_read_float_data(SENSOR_TYPE, DHT_GPIO, &humidity, &temperature) == ESP_OK)
+        if(bmx280 != NULL){
+            struct GrowMeasurement measurement;
+            measure_environmentals(bmx280, &measurement);
             printf(
-                    "Humidity: %.1f%% Temp: %.1fC VPD: %.1fkPa DewPoint: %.1fC ambient light: %.1f Lux\n",
-                    humidity,
-                    temperature,
-                    calculateVPD(temperature, humidity),
-                    calculateDewPoint(temperature, humidity),
-                    read_ambient_light()
+                    "Humidity: %.1f%%, Temp: %.1f°C, VPD: %.1fkPa, DewPoint: %.1f°C, ambient light: %.1f Lux, Pressure: %.1fkPa\n",
+                    measurement.humidity,
+                    measurement.temperature,
+                    measurement.vpd,
+                    measurement.dew_point,
+                    measurement.ambient_light,
+                    measurement.air_pressure
             );
-        else
-            printf("Could not read data from sensor\n");
+        }
+
         vTaskDelay(3000 / portTICK_PERIOD_MS);
     }
 }

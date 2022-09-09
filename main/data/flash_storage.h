@@ -7,6 +7,8 @@
 #define RECORD_ID "growId"
 #define WIFI_SSID "ssid"
 #define WIFI_PASSWORD "wifiPass"
+#define SOIL_MONITOR_HIGH "soilMonitorHigh"
+#define SOIL_MONITOR_LOW "soilMonitorLow"
 
 void init_storage();
 char* get_stored_value(char *key);

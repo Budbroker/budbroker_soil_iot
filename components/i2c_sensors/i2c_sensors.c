@@ -1,11 +1,17 @@
-#include "MAX44009.h"
+#include "i2c_sensors.h"
+#include <stdio.h>
+#include <string.h>
 #include "esp_log.h"
+#include "esp_err.h"
+#include <esp_system.h>
 #include "math.h"
 #include "driver/i2c.h"
 #include "driver/gpio.h"
 
-#define SDA_PIN GPIO_NUM_18
-#define SCL_PIN GPIO_NUM_19
+#include "bmx280.h"
+
+#define SDA_PIN GPIO_NUM_19
+#define SCL_PIN GPIO_NUM_18
 #define tag "MAX44009"
 
 #define MAX44009_ADDRESS1 0x4A
@@ -23,11 +29,12 @@ void i2c_master_init()
             .scl_io_num = SCL_PIN,
             .sda_pullup_en = GPIO_PULLUP_ENABLE,
             .scl_pullup_en = GPIO_PULLUP_ENABLE,
-            .master.clk_speed = 400000
+            .master.clk_speed = 1000000
     };
     i2c_param_config(I2C_NUM_0, &i2c_config);
     i2c_driver_install(I2C_NUM_0, I2C_MODE_MASTER, 0, 0, 0);
 }
+
 
 /**
  * @brief Read the ambient light in lux
@@ -73,4 +80,18 @@ float read_ambient_light(){
         ESP_LOGE(tag, "fail to read from sensor. code: %.2X", espErr);
         return LIGHT_READ_ERROR;
     }
+}
+
+esp_err_t read_bmx(bmx280_t* bmx280, float* temp, float* pres, float* hum ){
+    esp_err_t err = bmx280_setMode(bmx280, BMX280_MODE_FORCE);
+    if (err == ESP_OK){
+        do {
+            vTaskDelay(pdMS_TO_TICKS(1));
+        } while(bmx280_isSampling(bmx280));
+    }else{
+        ESP_LOGE(tag, "fail to set sensor mode. code: %.2X", err);
+        return err;
+    }
+
+    return bmx280_readoutFloat(bmx280, temp, pres, hum);
 }

@@ -9,10 +9,9 @@ Built on an ESP32 using [ESP-IDF](https://docs.espressif.com/projects/esp-idf/en
 
 ## Sensors
 
-* DHT11 (temperature/humidity) need to replace with something like si7021 or bme280, DHT11 is a shit sensor, very inaccurate.
+* BME280 sensor for temp, pressure and humidity (code adapted from [utkumaden's BMX repo](https://github.com/utkumaden/esp-idf-bmx280))
 * MAX44009 (Ambient light)
 * Capacitive Soil moisture sensor
-* Barometric Pressure sensor
 * ??? (looking at integrating a CO2 sensor too)
 
 ### TODO. Still a work in progress.
