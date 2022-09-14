@@ -13,7 +13,7 @@ struct GrowMeasurement{
     float air_pressure;
     float vpd;
     float ambient_light;
-    float soil_moisture;
+    int soil_moisture;
     float dew_point;
 };
 

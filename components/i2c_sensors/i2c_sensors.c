@@ -10,17 +10,19 @@
 
 #include "bmx280.h"
 
-#define SDA_PIN GPIO_NUM_19
-#define SCL_PIN GPIO_NUM_18
-#define tag "MAX44009"
+#define SDA_PIN GPIO_NUM_19 //I2C data line on pin 19
+#define SCL_PIN GPIO_NUM_18 //I2C clock line on pin 18
 
+#define tag_light_sensor "MAX44009"
 #define MAX44009_ADDRESS1 0x4A
 #define MAX44009_ADDRESS2 0x4B
 
 #define I2C_MASTER_ACK 0
 #define I2C_MASTER_NACK 1
 
-
+/**
+ * Init I2C on the device
+ */
 void i2c_master_init()
 {
     i2c_config_t i2c_config = {
@@ -77,11 +79,19 @@ float read_ambient_light(){
         i2c_cmd_link_delete(cmd);
         return lux;
     } else {
-        ESP_LOGE(tag, "fail to read from sensor. code: %.2X", espErr);
+        ESP_LOGE(tag_light_sensor, "fail to read from sensor. code: %.2X", espErr);
         return LIGHT_READ_ERROR;
     }
 }
 
+/**
+ * @brief Read BMP280 or BME280 sensor
+ * @param bmx280
+ * @param temperature
+ * @param pressure
+ * @param humidity
+ * @return esp_err_t
+ */
 esp_err_t read_bmx(bmx280_t* bmx280, float* temp, float* pres, float* hum ){
     esp_err_t err = bmx280_setMode(bmx280, BMX280_MODE_FORCE);
     if (err == ESP_OK){
@@ -89,7 +99,7 @@ esp_err_t read_bmx(bmx280_t* bmx280, float* temp, float* pres, float* hum ){
             vTaskDelay(pdMS_TO_TICKS(1));
         } while(bmx280_isSampling(bmx280));
     }else{
-        ESP_LOGE(tag, "fail to set sensor mode. code: %.2X", err);
+        ESP_LOGE("BME280", "fail to set sensor mode. code: %.2X", err);
         return err;
     }
 

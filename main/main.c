@@ -15,9 +15,9 @@ void app_main(void)
     // Init the NVS storage
     init_storage();
 
-//    set_storage_value(SERVER_HOST, "example.com");
-//    erase_value(SERVER_HOST);
-//    erase_value(SERVER_HOST);
+    set_storage_value(SERVER_HOST, "example.com");
+    erase_value(SERVER_HOST);
+    erase_value(SERVER_HOST);
     char* host = get_stored_value(SERVER_HOST);
     printf("host %s\n", host);
 
@@ -30,13 +30,14 @@ void app_main(void)
             struct GrowMeasurement measurement;
             measure_environmentals(bmx280, &measurement);
             printf(
-                    "Humidity: %.1f%%, Temp: %.1f°C, VPD: %.1fkPa, DewPoint: %.1f°C, ambient light: %.1f Lux, Pressure: %.1fkPa\n",
+                    "Humidity: %.1f%%, Temp: %.1f°C, VPD: %.1fkPa, DewPoint: %.1f°C, ambient light: %.1f Lux, Air Pressure: %.1fkPa Soil Moisture %%: %.1d%%\n",
                     measurement.humidity,
                     measurement.temperature,
                     measurement.vpd,
                     measurement.dew_point,
                     measurement.ambient_light,
-                    measurement.air_pressure
+                    measurement.air_pressure,
+                    measurement.soil_moisture
             );
         }
 
