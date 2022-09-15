@@ -17,14 +17,8 @@ void app_main(void)
     // Init the NVS storage
     init_storage();
 
-    set_storage_value(SERVER_HOST, "example.com");
-    erase_value(SERVER_HOST);
-    erase_value(SERVER_HOST);
-    char* host = get_stored_value(SERVER_HOST);
-    printf("host %s\n", host);
-
+    //Init the sensors and get the bmx280
     bmx280_t* bmx280 =  init_grow_sensors();
-
 
     while (1) {
 
