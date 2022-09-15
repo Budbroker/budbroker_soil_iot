@@ -3,10 +3,12 @@
 #include "freertos/task.h"
 #include "driver/gpio.h"
 #include "sdkconfig.h"
-#include "utils/networking.h"
-#include "ble/bluetooth.h"
-#include "data/flash_storage.h"
-#include "wifi/wifi.h"
+
+//Internal Components
+#include "networking.h"
+#include "bluetooth.h"
+#include "flash_storage.h"
+#include "wifi.h"
 #include "bmx280.h"
 #include "grow.h"
 

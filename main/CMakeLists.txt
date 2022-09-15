@@ -1,5 +1,5 @@
 idf_component_register(
-    SRCS "main.c" "data/flash_storage.c"
+    SRCS "main.c"
     INCLUDE_DIRS "." 
-    REQUIRES nvs_flash bmx280 i2c_sensors grow
+    REQUIRES nvs_flash bmx280 i2c_sensors grow data ble utils wifi
 )

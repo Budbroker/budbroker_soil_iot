@@ -18,8 +18,6 @@ struct GrowMeasurement{
 };
 
 bmx280_t* init_grow_sensors();
-float calculateDewPoint(const float temperature, const float humidity);
-float calculateVPD(const float temperature, const float humidity);
 void measure_environmentals(bmx280_t* bmx280, struct GrowMeasurement* measurement);
 
 #endif //BUDBROKER_SOIL_IOT_GROW_H
