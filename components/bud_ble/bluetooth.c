@@ -110,8 +110,8 @@ char * bleDataToString(uint8_t * buff, uint16_t len){
 void saveParams(){
     switch (lastRead) {
         case USER_TOKEN:
-//            set_storage_value(USER_ACCESS_TOKEN_KEY, userToken);
-            printf("%s\n", userToken);
+            set_storage_value(USER_ACCESS_TOKEN_KEY, userToken);
+//            printf("%s\n", userToken);
             ESP_LOGI("BLE", "User token saved");
             break;
         case REFRESH_TOKEN:
