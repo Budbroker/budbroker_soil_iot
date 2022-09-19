@@ -6,6 +6,7 @@
 #include "esp_event.h"
 #include "nvs_flash.h"
 #include "esp_log.h"
+#include "esp_system.h"
 #include "esp_nimble_hci.h"
 #include "nimble/nimble_port.h"
 #include "nimble/nimble_port_freertos.h"
@@ -52,6 +53,8 @@ enum BUD_BLE_ACTIONS
     WIFI_PASSWORD = 0x07,
     SOIL_AIR = 0x08,
     SOIL_WATER = 0x09,
+    REBOOT = 0x50,
+    RESET = 0x66,
     ERROR = 0x99
 };
 enum BUD_BLE_ACTIONS currentlyReading = ERROR;
@@ -135,6 +138,27 @@ void saveParams(){
             ESP_LOGI("BLE", "Error on save");
             break;
     }
+}
+
+/**
+ * Delete all stored values on the device
+ */
+void deviceReset(){
+    erase_value(USER_ACCESS_TOKEN_KEY);
+    erase_value(USER_REFRESH_TOKEN_KEY);
+    erase_value(SERVER_HOST_KEY);
+    erase_value(GROW_ID_KEY);
+    erase_value(WIFI_SSID_KEY);
+    erase_value(WIFI_PASSWORD_KEY);
+    erase_value(SOIL_MONITOR_AIR_KEY);
+    erase_value(SOIL_MONITOR_WATER_KEY);
+}
+
+/**
+ * Restart the sensor
+ */
+void deviceRestart(){
+    esp_restart();
 }
 
 /**
@@ -259,11 +283,20 @@ static int device_write(uint16_t conn_handle, uint16_t attr_handle, struct ble_g
                 currentlyReading = END;
                 break;
             case SOIL_WATER:
-                currentlyReading = END;
                 ESP_LOGI("APP", "SOIL WATER");
                 calibrateSoilMoistureWater(); // Do the device calibration
                 strcpy( data, (char[]){DONE,0x11} ); //Let the client know that the calibration is done
                 currentlyReading = END;
+                break;
+            case REBOOT:
+                ESP_LOGI("APP", "REBOOT");
+                currentlyReading = END;
+                deviceRestart();
+                break;
+            case RESET:
+                ESP_LOGI("APP", "RESET");
+                currentlyReading = END;
+                deviceReset();
                 break;
             default:
                 currentlyReading = ERROR;
