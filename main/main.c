@@ -12,13 +12,10 @@
 #include "bmx280.h"
 #include "grow.h"
 
-void app_main(void)
-{
-    // Init the NVS storage
-    init_storage();
 
-    //Init the sensors and get the bmx280
-    bmx280_t* bmx280 =  init_grow_sensors();
+void measureTask(void * parameter){
+
+    bmx280_t* bmx280 = (bmx280_t *) parameter;
 
     while (1) {
 
@@ -39,4 +36,20 @@ void app_main(void)
 
         vTaskDelay(3000 / portTICK_PERIOD_MS);
     }
+}
+
+void app_main(void)
+{
+    // Init the NVS storage
+    init_storage();
+    bmx280_t* bmx280 =  init_grow_sensors();
+
+    xTaskCreate(&measureTask, "measure", 2048, (void *) bmx280, 2, NULL);
+
+    startBleServer();
+
+    //Init the sensors and get the bmx280
+
+//
+
 }

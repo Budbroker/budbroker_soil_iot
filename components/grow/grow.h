@@ -19,5 +19,7 @@ struct GrowMeasurement{
 
 bmx280_t* init_grow_sensors();
 void measure_environmentals(bmx280_t* bmx280, struct GrowMeasurement* measurement);
+void calibrateSoilMoistureAir();
+void calibrateSoilMoistureWater();
 
 #endif //BUDBROKER_SOIL_IOT_GROW_H

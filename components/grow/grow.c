@@ -26,13 +26,14 @@ int soilMoisturePercent = 0;
 /**
  * Get the saved calibration numbers for the soil sensor
  */
-void getSoilMonitorCalibration(){
-    int savedAir = get_stored_int_value(SOIL_MONITOR_AIR);
+void getSoilMonitorCalibration()
+{
+    int savedAir = get_stored_int_value(SOIL_MONITOR_AIR_KEY);
     if(savedAir != 0){
         airValue = savedAir;
     }
 
-    int savedWater = get_stored_int_value(SOIL_MONITOR_WATER);
+    int savedWater = get_stored_int_value(SOIL_MONITOR_WATER_KEY);
     if(savedWater != 0){
         waterValue = savedWater;
     }
@@ -51,14 +52,16 @@ void getSoilMonitorCalibration(){
  * @param out_max
  * @return
  */
-long map(long x, long in_min, long in_max, long out_min, long out_max) {
+long map(long x, long in_min, long in_max, long out_min, long out_max)
+{
     return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
 
 /**
  * Read the soil moisture sensor and calculate the soil moisture percentage
  */
-void readSoilMoisture(){
+void readSoilMoisture()
+{
     soilMoistureValue = adc1_get_raw(ADC1_CHANNEL_6);
 //    printf("soil moisture value %.1d\n", soilMoistureValue);
     soilMoisturePercent = map(soilMoistureValue, airValue, waterValue, 0, 100);
@@ -68,7 +71,8 @@ void readSoilMoisture(){
  * Take a 5 sample readings from the soil moisture sensor and work out an average
  * @return int average sample
  */
-int soilSensorSampling(){
+int soilSensorSampling()
+{
     int aggregate = 0;
     int counter = 0;
 
@@ -85,17 +89,19 @@ int soilSensorSampling(){
 /**
  * Save the soil moisture air sample to the onboard storage.
  */
-void calibrateSoilMoistureAir(){
+void calibrateSoilMoistureAir()
+{
     int airSample = soilSensorSampling();
-    set_int_storage_value(SOIL_MONITOR_AIR, airSample);
+    set_int_storage_value(SOIL_MONITOR_AIR_KEY, airSample);
 }
 
 /**
  * Save the soil moisture water sample to the onboard storage.
  */
-void calibrateSoilMoistureWater(){
+void calibrateSoilMoistureWater()
+{
     int waterSample = soilSensorSampling();
-    set_int_storage_value(SOIL_MONITOR_WATER, waterSample);
+    set_int_storage_value(SOIL_MONITOR_WATER_KEY, waterSample);
 }
 
 /*
@@ -162,7 +168,8 @@ float calculateVPD(const float temperature, const float humidity)
  * @param bmx280
  * @param measurement
  */
-void measure_environmentals(bmx280_t* bmx280, struct GrowMeasurement* measurement){
+void measure_environmentals(bmx280_t* bmx280, struct GrowMeasurement* measurement)
+{
     float pres = 0;
     readSoilMoisture();
     if (read_bmx(bmx280, &measurement->temperature, &pres, &measurement->humidity ) == ESP_OK){
@@ -184,7 +191,8 @@ void measure_environmentals(bmx280_t* bmx280, struct GrowMeasurement* measuremen
  * Master init the sensors on the device
  * @return
  */
-bmx280_t* init_grow_sensors(){
+bmx280_t* init_grow_sensors()
+{
     // Start up the I2C comms
     i2c_master_init();
 

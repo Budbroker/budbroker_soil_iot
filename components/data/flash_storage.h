@@ -1,14 +1,14 @@
 #ifndef flash
 #define flash
 
-#define USER_ACCESS_TOKEN "token"
-#define USER_REFRESH_TOKEN "refreshToken"
-#define SERVER_HOST "server_host"
-#define GROW_ID "growId"
-#define WIFI_SSID "ssid"
-#define WIFI_PASSWORD "wifiPass"
-#define SOIL_MONITOR_AIR "soilMonitorAir"
-#define SOIL_MONITOR_WATER "soilMonitorWater"
+#define USER_ACCESS_TOKEN_KEY "token"
+#define USER_REFRESH_TOKEN_KEY "refreshToken"
+#define SERVER_HOST_KEY "server_host"
+#define GROW_ID_KEY "growId"
+#define WIFI_SSID_KEY "ssid"
+#define WIFI_PASSWORD_KEY "wifiPass"
+#define SOIL_MONITOR_AIR_KEY "soilMonitorAir"
+#define SOIL_MONITOR_WATER_KEY "soilMonitorWater"
 
 #include <stdio.h>
 #include <stdint.h>
